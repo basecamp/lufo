@@ -152,7 +152,7 @@ $('select.countries').lufo({
 Set Lufo to track a `<select>` with the ID `author_id`, and a unique cookie name. Only enable Lufo if the list grows to `10` items. Only show `3` of the most recently selected items. Ignore a value of `none`. Finally, turn off the divider, shorten the recent list title, and move the recent selects into an `<optgroup`>.
 
 ```javascript
-jQuery('#author_id').lufo({
+$('#author_id').lufo({
   groupList: true,
   recentsListTitle: 'Recent',
   dividerEnabled: false,
