@@ -1,5 +1,5 @@
 # Lufo for jQuery
-### A jQuery plugin to track the most recent options chosen on a `<select>` element and displays them at the top of the list
+### A jQuery plugin to track the most recent options chosen on a `<select>` element and display them at the top of the list
 
 Intro copy here
 
@@ -8,19 +8,19 @@ Intro copy here
 ## Usage
 
 1. Include [jQuery](http://jquery.com) in your project
-2. Include plugin’s code:
+2. Include the Lufo plugin code:
 
   ```html
   <script src="jquery.lufo.js"></script>
   ```
 
-3. Call the plugin:
+3. Call the Lufo plugin on a `<select>` element:
 
   ```javascript
   $('select').lufo();
   ```
   
-  If you are using the plugin with multiple, _different_, `<select>` menus, you will want to specify a unique Cookie Name for each menu:
+  If you are using the plugin with multiple, _different_, `<select>` menus, you will want to specify a unique tracking cookie name for each menu:
   
   ```javascript
   $('select.some-select').lufo({
@@ -28,7 +28,7 @@ Intro copy here
   });
   ```
   
-  See below for other available options.
+  [More on Tracking Cookie Preferences.](#tracking-cookie-preferences) See below for other available options.
 
 ## Options
 
@@ -51,7 +51,7 @@ recentsListTitleEnabled: true,
 recentsListTitle: 'Recently selected:'
 ```
 
-Turn the list off by setting `recentsListTitleEnabled` to `false` or change the title text by setting `recentsListTitle` to something else.
+Turn the title off by setting `recentsListTitleEnabled` to `false` or change the title text by setting `recentsListTitle` to something else.
 
 #### List Divider
 Lufo will place a disabled `<option>` at the end of the most-recently selected options list to use as a divider.
@@ -73,13 +73,13 @@ recentsListLength: 5
 You may change this number to any positive integer.
 
 #### Conditionally Enabling Lufo
-By default, a `<select>` list must have at least `5` items in it to enable the tracking and display of recently selected items. This is especially useful for dynamic lists in an app that may need to grow over time before it becomes useful to track recent selects.
+A `<select>` list must have at least `5` items in it to enable the tracking and display of recently selected items. This is especially useful for dynamic lists in an app that may need to grow over time before it becomes useful to track recent selects.
 
 ```javascript
 listMinimumLength: 5
 ```
 
-You may change this number to any positive integer to enable Lufo sooner, or wait until a list grows.
+You may change this number to any positive integer to enable Lufo sooner, or to wait until a list grows beyond five options.
 
 #### Using `<optgroup>`
 By default, Lufo adds the list of recent selects to the top-level of a `<select>` menu.
@@ -91,7 +91,7 @@ groupList: false
 If you wish to group the options into an `<optgroup>` set `groupList` to `true`.
 
 #### Ignoring Certain Values
-By default, Lufo will track clicks on _any_ available `<option>` in a `<select>`.
+Lufo will track clicks on _all_ available `<option>` in a `<select>`.
 
 If you wish to ignore a few options in the list, you may create an array of the _values_ (`value=`) that you do not want Lufo to track.
 
@@ -113,9 +113,9 @@ cookieName: 'recentOptionValues',
 cookieAge: 30
 ```
 
-However, if you are using it on multiple menus with different values, you need to set a unique cookie name for each of the menus.
+However, if you are using Lufo on multiple menus with different values, you need to set a unique cookie name for each of the menus.
 
-***Example:***
+**Example:**
 
 ```javascript
 $('select.some-select').lufo({
@@ -129,10 +129,18 @@ $('select.other-select').lufo({
 
 You may also increase or decrease the amount of time the tracking cookie persists on your site. The default cookie age is `30` days. You may change it by setting `cookieAge` to another positive integer to represent a number of _days_.
 
+**Example:**
+
+```javascript
+cookieAge: 90
+```
+
+The example above would remember the recently selected options for `90` days instead of the default `30`.
+
 ## Examples
 
 #### Example #1
-Set Lufo to track a `<select>` with the classname `countries` and set a unique cookie name based on that classname.
+Set Lufo to track a `<select>` with the class name `countries` and set a unique cookie name based on that class name.
 
 ```javascript
 $('select.countries').lufo({
@@ -141,7 +149,7 @@ $('select.countries').lufo({
 ```
 
 #### Example #2
-Set Lufo to track a `<select>` with the ID `author_id`, with a unique cookie name. Only enable Lufo if the list grows to `10` items. Only show `3` of the most recently selected items. Ignore a value of `none`. Finally, turn off the divider, shorten the recent list title, and move the recent selects into an `<optgroup`>.
+Set Lufo to track a `<select>` with the ID `author_id`, and a unique cookie name. Only enable Lufo if the list grows to `10` items. Only show `3` of the most recently selected items. Ignore a value of `none`. Finally, turn off the divider, shorten the recent list title, and move the recent selects into an `<optgroup`>.
 
 ```javascript
 jQuery('#author_id').lufo({
@@ -157,11 +165,7 @@ jQuery('#author_id').lufo({
 
 ## Contributing
 
-Check [CONTRIBUTING.md](https://github.com/highrisehq/lufo/blob/master/CONTRIBUTING.md) for more information.
-
-## History
-
-Check [Releases](https://github.com/jquery-boilerplate/jquery-boilerplate/releases) for detailed changelog.
+We would love to see your contributions to Lufo! Check [CONTRIBUTING.md](https://github.com/highrisehq/lufo/blob/master/CONTRIBUTING.md) for more information.
 
 ## License
 
