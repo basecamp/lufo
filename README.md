@@ -3,7 +3,7 @@
 
 Intro copy here
 
-![](https://github.com/highrisehq/lufo/blob/master/demo.png?raw=true)
+![](https://github.com/highrisehq/lufo/blob/master/demo.gif?raw=true)
 
 ## Usage
 
