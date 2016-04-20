@@ -1,7 +1,11 @@
 # Lufo for jQuery
 ### A jQuery plugin to track the most recent options chosen on a `<select>` element and display them at the top of the list
 
-Intro copy here
+Long `<select>` menus many options can be a pain. States/territories, countries, currency lists, etc. have so many options that scrolling through them to find the ones you use often is cumbersome. If you can easily identify the demographics of people using your site, you can solve this by manually moving more popular options to the top of the list, but if your site is used globally, or by a wide variety of people with different needs, this method isn’t helpful for anyone.
+
+Lufo works on local level. It tracks the most recent selections on a long `<select>` menu and stores them in a local cookie. When someone revisits a page with that same long menu, their most-recently selected options will be copied to the top of the list for their convenience. No bias on your part. Super-convenient for the people using your site.
+
+You can add Lufo to just about any `<select>` form control, choose to group the recent selects, customize (or hide) the labels and divider text, and even enable/disable Lufo based on how many options are in a dynamically-generated `<select>`.
 
 ![](https://github.com/highrisehq/lufo/blob/master/demo.gif?raw=true)
 
