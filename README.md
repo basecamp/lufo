@@ -47,6 +47,15 @@ checkInitialValue: true
 
 Set to `false` to turn off this check.
 
+#### Strip “selected” from Cloned Values
+If a recent option has the selected attribute set (`selected="selected"`) it will remain when that `<option>` is copied to the top of the list.
+
+```javascript
+stripSelected: false
+```
+
+Set `stripSelected` to `true` if you want the selected attribute removed from the copy.
+
 #### A Title for the Recently Selected List
 By default, Lufo will place a disabled `<option>` at the beginning of the most-recently selected options list with the text: “Recently selected:”.
 
