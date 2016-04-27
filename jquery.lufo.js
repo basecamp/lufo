@@ -15,35 +15,61 @@ MIT License, https://github.com/highrise/lufo/blob/master/LICENSE.md
 // set name
 var lufo = "lufo", dataKey = "plugin_" + lufo;
 
-// ------------------------------------------------------------- Cookie Management
-// grabs existing cookie by name; returns null if not found
-var getCookie = function(name) {
-  var cookie = document.cookie.match(new RegExp('(^|;)\\s*' + escape(name) + '=([^;\\s]*)'));
-  return (cookie ? unescape(cookie[2]) : null);
+// ------------------------------------------------------------- Storage Management
+// check if localStorage is available
+var localStorageEnabled = function() {
+  var item;
+  item = 'tryLufo';
+  try {
+    localStorage.setItem(item, item);
+    localStorage.removeItem(item);
+    return true;
+  } catch (_error) {
+    e = _error;
+    return false;
+  }
 };
 
-// sets new cookie; expects name, value of cookie, days to expiration (integer)
-var setCookie = function(name, value, daysToExpire) {
-  var attrs = '; path=/';
-  if (daysToExpire != undefined) {
-    var d = new Date();
-    d.setTime(d.getTime() + (86400000 * parseFloat(daysToExpire)));
-    attrs += '; expires=' + d.toGMTString();
-  };
-  return (document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value || '') + attrs);
+// grabs existing item by name; returns null if not found
+var getStoredItem = function(name) {
+  if (localStorageEnabled()) {
+    return localStorage.getItem(name)
+  } else {
+    var cookie = document.cookie.match(new RegExp('(^|;)\\s*' + escape(name) + '=([^;\\s]*)'));
+    return (cookie ? unescape(cookie[2]) : null);
+  }
 };
 
-// removes cookie by name
-var removeCookie = function(name) {
-  var cookie = getCookie(name) || true;
-  setCookie(name, '', -1);
-  return cookie;
+// sets new item; expects name, value of item (+ days to expiration (integer) if cookie)
+var setStoredItem = function(name, value, daysToExpire) {
+  if (localStorageEnabled()) {
+    return localStorage.setItem(name,value);
+  } else {
+    var attrs = '; path=/';
+    if (daysToExpire != undefined) {
+      var d = new Date();
+      d.setTime(d.getTime() + (86400000 * parseFloat(daysToExpire)));
+      attrs += '; expires=' + d.toGMTString();
+    };
+    return (document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value || '') + attrs);
+  }
+};
+
+// removes item by name
+var removeStoredItem = function(name) {
+  if (localStorageEnabled()) {
+    return localStorage.removeItem(name);
+  } else {
+    var cookie = getStoredItem(name) || true;
+    setStoredItem(name, '', -1);
+    return cookie;
+  }
 };
 
 // ------------------------------------------------------------- <select> Management
-// modify the <select> menu to show most recent selections (loaded from cookie)
+// modify the <select> menu to show most recent selections (loaded from StoredItem)
 var setSelect = function($selectControl, options){
-  var savedValues = JSON.parse(getCookie(options.cookieName));
+  var savedValues = JSON.parse(getStoredItem(options.listStoreName));
 
   if (savedValues === null) {
     return
@@ -105,10 +131,10 @@ var setSelect = function($selectControl, options){
   };
 };
 
-// watch changes on the <select> menu; update (or create) the cookie based on changes
+// watch changes on the <select> menu; update (or create) the stored item based on changes
 var watchSelectChanges = function($selectControl, options){
   $selectControl.on("change", function(){
-    var savedValues = JSON.parse(getCookie(options.cookieName));
+    var savedValues = JSON.parse(getStoredItem(options.listStoreName));
     if (savedValues === null) {
       savedValues = [];
     };
@@ -127,10 +153,10 @@ var watchSelectChanges = function($selectControl, options){
       }
       // add the most recently selected value
       savedValues.push(newValue);
-      // remove old cookie; set new cookie
-      var newCookieValue = JSON.stringify(savedValues);
-      removeCookie(options.cookieName);
-      setCookie(options.cookieName, newCookieValue, options.cookieAge);
+      // remove old stored item; set new stored item
+      var newStoredItemValue = JSON.stringify(savedValues);
+      removeStoredItem(options.listStoreName);
+      setStoredItem(options.listStoreName, newStoredItemValue, options.cookieAge);
     } else {
       return
     };
@@ -153,8 +179,8 @@ var Lufo = function(element, options) {
     listMinimumLength: 5,                    // number of items needed in the original list to activate Lufo
     groupList: false,                        // builds the recent items list as an `optgroup`
     ignoredValues: [],                       // list (array) of option values that won't be included: ['One', 'Two', 'Four']
-    cookieName: 'recentOptionValues',        // name of storage cookie (if used for multiple lists on a site, pick different names)
-    cookieAge: 30,                           // number of days before remembered items are cleared
+    listStoreName: 'recentOptionValues',     // name of storage item (if used for multiple lists on a site, pick different names)
+    cookieAge: 30,                           // number of days before remembered items are cleared (if a cookie is used)
   };
 
   if ((this.element.length) && (this.element.is('select'))) {
