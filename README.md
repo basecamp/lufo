@@ -3,7 +3,7 @@
 
 Long `<select>` menus many options can be a pain. States/territories, countries, currency lists, etc. have so many options that scrolling through them to find the ones you use often is cumbersome. If you can easily identify the demographics of people using your site, you can solve this by manually moving more popular options to the top of the list, but if your site is used globally, or by a wide variety of people with different needs, this method isn’t helpful for anyone.
 
-Lufo works on local level. It tracks the most recent selections on a long `<select>` menu and stores them in a local cookie. When someone revisits a page with that same long menu, their most-recently selected options will be copied to the top of the list for their convenience. No bias on your part. Super-convenient for the people using your site.
+Lufo works on local level. It tracks the most recent selections on a long `<select>` menu and stores them in a browser’s `localStorage` (it falls back to a tracking cookie if the browser doesn’t support `localStorage`). When someone revisits a page with that same long menu, their most-recently selected options will be copied to the top of the list for their convenience. No bias on your part. Super-convenient for the people using your site.
 
 You can add Lufo to just about any `<select>` form control, choose to group the recent selects, customize (or hide) the labels and divider text, and even enable/disable Lufo based on how many options are in a dynamically-generated `<select>`.
 
@@ -24,15 +24,15 @@ You can add Lufo to just about any `<select>` form control, choose to group the 
   $('select').lufo();
   ```
   
-  If you are using the plugin with multiple, _different_, `<select>` menus, you will want to specify a unique tracking cookie name for each menu:
+  If you are using the plugin with multiple, _different_, `<select>` menus, you will want to specify a unique storage name for each menu:
   
   ```javascript
   $('select.some-select').lufo({
-    cookieName: 'someSelectValues'
+    listStoreName: 'someSelectValues'
   });
   ```
   
-  [More on Tracking Cookie Preferences.](#tracking-cookie-preferences) See below for other available options.
+  [More on Storage & Tracking Cookie Preferences.](#storage-tracking-cookie-preferences) See below for other available options.
 
 ## Options
 
@@ -116,31 +116,31 @@ ignoredValues: ['dog', 'cat', 'cow']
 
 Setting the above option would not track clicks on any options in a `<select>` that contain the values of `dog`, `cat`, or `cow`.
 
-#### Tracking Cookie Preferences
-If you will be using Lufo on a single `<select>` menu on your site, you don’t need to change any of the tracking cookie preferences.
+#### Storage & Tracking Cookie Preferences
+If you will be using Lufo on a single `<select>` menu on your site, you don’t need to change any of the storage preferences. Lufo will use a browser’s `localStorage` (or if that isn’t available, set a tracking cookie) to remember the most recent selections.
 
 **Default:**
 
 ```javascript
-cookieName: 'recentOptionValues',
-cookieAge: 30
+listStoreName: 'recentOptionValues',
+cookieAge: 30 // only relevante for browsers without `localStorage`
 ```
 
-However, if you are using Lufo on multiple menus with different values, you need to set a unique cookie name for each of the menus.
+However, if you are using Lufo on multiple menus with different values, you need to set a unique storage item name for each of the menus.
 
 **Example:**
 
 ```javascript
 $('select.some-select').lufo({
-  cookieName: 'someSelectValues'
+  listStoreName: 'someSelectValues'
 });
 
 $('select.other-select').lufo({
-  cookieName: 'otherSelectValues'
+  listStoreName: 'otherSelectValues'
 });
 ```
 
-You may also increase or decrease the amount of time the tracking cookie persists on your site. The default cookie age is `30` days. You may change it by setting `cookieAge` to another positive integer to represent a number of _days_.
+You may also increase or decrease the amount of time the tracking cookie persists on your site (for browsers without `localStorage`). The default cookie age is `30` days. You may change it by setting `cookieAge` to another positive integer to represent a number of _days_.
 
 **Example:**
 
@@ -153,16 +153,16 @@ The example above would remember the recently selected options for `90` days ins
 ## Examples
 
 #### Example #1
-Set Lufo to track a `<select>` with the class name `countries` and set a unique cookie name based on that class name.
+Set Lufo to track a `<select>` with the class name `countries` and set a unique storage item name based on that class name.
 
 ```javascript
 $('select.countries').lufo({
-  cookieName: 'countriesSelectValues'
+  listStoreName: 'countriesSelectValues'
 });
 ```
 
 #### Example #2
-Set Lufo to track a `<select>` with the ID `author_id`, and a unique cookie name. Only enable Lufo if the list grows to `10` items. Only show `3` of the most recently selected items. Ignore a value of `none`. Finally, turn off the divider, shorten the recent list title, and move the recent selects into an `<optgroup`>.
+Set Lufo to track a `<select>` with the ID `author_id`, and a unique storage item name. Only enable Lufo if the list grows to `10` items. Only show `3` of the most recently selected items. Ignore a value of `none`. Finally, turn off the divider, shorten the recent list title, and move the recent selects into an `<optgroup`>.
 
 ```javascript
 $('#author_id').lufo({
@@ -172,7 +172,7 @@ $('#author_id').lufo({
   recentsListLength: 3,
   listMinimumLength: 10,
   ignoredValues: ['none'],
-  cookieName: 'authorIdSelectValues'
+  listStoreName: 'authorIdSelectValues'
 });
 ```
 
