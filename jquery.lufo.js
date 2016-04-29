@@ -109,8 +109,14 @@ var setSelect = function($selectControl, options){
     for (i = 0, quantity = savedValues.length; i < quantity; i++) {
       savedValue = decodeURIComponent(savedValues[i]);
 
-      var escapedSavedValue = savedValue.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1'); // escape special characters in the saved value, just in case
-      var optionHtml = $selectControl.find('option[value="'+escapedSavedValue+'"]').clone();
+      var optionHtml, optionLoop;
+      for (optionLoop = 0; optionLoop < $selectControl[0].options.length; optionLoop++) {
+        if ($selectControl[0].options[optionLoop].value == savedValue) {
+          optionHtml = jQuery($selectControl[0].options[optionLoop]).clone();
+          break;
+        }
+      }
+
       if (options.stripSelected) {
         optionHtml.removeAttr('selected');
       };
@@ -170,7 +176,7 @@ var Lufo = function(element, options) {
   // defaults; override any of this options locally when invoking the plugin
   this.options = {
     checkInitialValue: true,                 // check if initial option is a valueless placeholder and keep it at top
-    stripSelected: false,                    // leave `selected="selected"` intact when copyoing `<option>`
+    stripSelected: false,                    // leave `selected="selected"` intact when copying `<option>`
     recentsListTitleEnabled: true,           // use placeholder title at the top of the recent items list
     recentsListTitle: 'Recently selected:',  // text for placeholder title
     dividerEnabled: true,                    // use placeholder divider between recents items and full list
