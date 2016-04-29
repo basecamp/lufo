@@ -176,7 +176,7 @@ var Lufo = function(element, options) {
   // defaults; override any of this options locally when invoking the plugin
   this.options = {
     checkInitialValue: true,                 // check if initial option is a valueless placeholder and keep it at top
-    stripSelected: false,                    // leave `selected="selected"` intact when copyoing `<option>`
+    stripSelected: false,                    // leave `selected="selected"` intact when copying `<option>`
     recentsListTitleEnabled: true,           // use placeholder title at the top of the recent items list
     recentsListTitle: 'Recently selected:',  // text for placeholder title
     dividerEnabled: true,                    // use placeholder divider between recents items and full list
