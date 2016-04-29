@@ -109,8 +109,14 @@ var setSelect = function($selectControl, options){
     for (i = 0, quantity = savedValues.length; i < quantity; i++) {
       savedValue = decodeURIComponent(savedValues[i]);
 
-      var escapedSavedValue = savedValue.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1'); // escape special characters in the saved value, just in case
-      var optionHtml = $selectControl.find('option[value="'+escapedSavedValue+'"]').clone();
+      var optionHtml, optionLoop;
+      for (optionLoop = 0; optionLoop < $selectControl[0].options.length; optionLoop++) {
+        if ($selectControl[0].options[optionLoop].value == savedValue) {
+          optionHtml = jQuery($selectControl[0].options[optionLoop]).clone();
+          break;
+        }
+      }
+
       if (options.stripSelected) {
         optionHtml.removeAttr('selected');
       };
