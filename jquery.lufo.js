@@ -115,15 +115,17 @@ var setSelect = function($selectControl, options){
           optionHtml = jQuery($selectControl[0].options[optionLoop]).clone();
           break;
         }
-      }
-
-      if (options.stripSelected) {
-        optionHtml.removeAttr('selected');
       };
-      if (options.groupList) {
-        $selectControl.find('optgroup:first').prepend(optionHtml);
-      } else {
-        $selectControl.prepend(optionHtml);
+
+      if (optionHtml != null) {
+        if (options.stripSelected) {
+          optionHtml.removeAttr('selected');
+        };
+        if (options.groupList) {
+          $selectControl.find('optgroup:first').prepend(optionHtml);
+        } else {
+          $selectControl.prepend(optionHtml);
+        };
       };
     };
 
