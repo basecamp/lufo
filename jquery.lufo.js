@@ -135,6 +135,9 @@ var setSelect = function($selectControl, options){
     };
     if (placeholderMainHtml != null) {
       $selectControl.prepend(placeholderMainHtml);
+      if ($selectControl.find('option:selected').length) {
+        $selectControl.find('option:first').attr('selected','selected');
+      };
     };
   };
 };
