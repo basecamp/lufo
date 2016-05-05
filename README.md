@@ -1,9 +1,10 @@
-# Lufo for jQuery
+## Lufo for jQuery
 
 **A jQuery plugin to track the most recent options chosen on a `<select>` element and display them at the top of the list**
 
+-----------
 
-> Stop being regionally biased
+**"Stop being regionally biased"**
 
 That's the subject of an email I received recently. 
 
