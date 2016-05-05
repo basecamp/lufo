@@ -39,7 +39,7 @@ Lufo tracks the most recent selections on a long `<select>` menu and stores them
 
 You can add Lufo to just about any `<select>` form control, choose to group the recent selects, customize (or hide) the labels and divider text, and even enable/disable Lufo based on how many options are in a dynamically-generated `<select>`.
 
-![](https://github.com/highrisehq/lufo/blob/master/demo.gif?raw=true)
+<img src="https://github.com/highrisehq/lufo/blob/master/demo.gif?raw=true" width=500 />
 
 ## Usage
 
