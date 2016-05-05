@@ -135,7 +135,7 @@ var setSelect = function($selectControl, options){
     };
     if (placeholderMainHtml != null) {
       $selectControl.prepend(placeholderMainHtml);
-      if ($selectControl.find('option:selected').length) {
+      if ($selectControl.find('option[selected=selected]').length === 0) {
         $selectControl.find('option:first').attr('selected','selected');
       };
     };
