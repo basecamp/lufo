@@ -1,4 +1,4 @@
-## Lufo for jQuery
+### Lufo for jQuery
 
 **A jQuery plugin to track the most recent options chosen on a `<select>` element and display them at the top of the list**
 
