@@ -1,9 +1,40 @@
 # Lufo for jQuery
 ### A jQuery plugin to track the most recent options chosen on a `<select>` element and display them at the top of the list
 
-Long `<select>` menus many options can be a pain. States/territories, countries, currency lists, etc. have so many options that scrolling through them to find the ones you use often is cumbersome. If you can easily identify the demographics of people using your site, you can solve this by manually moving more popular options to the top of the list, but if your site is used globally, or by a wide variety of people with different needs, this method isn’t helpful for anyone.
+---------------------
 
-Lufo works on local level. It tracks the most recent selections on a long `<select>` menu and stores them in a browser’s `localStorage` (it falls back to a tracking cookie if the browser doesn’t support `localStorage`). When someone revisits a page with that same long menu, their most-recently selected options will be copied to the top of the list for their convenience. No bias on your part. Super-convenient for the people using your site.
+> Stop being regionally biased
+
+That's the subject of an email I received recently. 
+
+Well that got my intention. What are we doing wrong?
+
+The message explained: 
+
+> Your current drop down menu for country locations is not very Asia friendly - all those listed at the top of the list are in North America, Europe + Japan. My most frequent country selections are Hong Kong, Singapore, Indonesia, Vietnam, China, etc...
+
+They were right. Our menu is 200 countries long, and we highlight a few, but it's clearly biased towards that few. 
+
+But that got us thinking... this isn't just a problem for Countries, we have this problem all over our app. We have a bunch of menus, many with more than a few choices, where it's hard to repeatedly pick things that aren't at the top of the list. 
+
+Sure, browsers try and give you the ability to type some letters to find things faster in the menu, but they fail at anything but rudimentary searches. 
+
+What we really need is a solution to have HTML select menu's remember what the user last picked and make those easier to pick next time. 
+
+Something like: 
+
+**L**ast
+**U**sed
+**F**irst
+**O**ut
+
+LUFO!!!
+
+----------------------
+
+Long `<select>` menus with many options can be a pain. States/territories, countries, currency lists, etc. have so many options it's cumbersome to scroll through them to find the ones you use often. 
+
+Lufo tracks the most recent selections on a long `<select>` menu and stores them in a browser’s `localStorage` (it falls back to a tracking cookie if the browser doesn’t support `localStorage`). When someone revisits a page with that same long menu, their most-recently selected options will be copied to the top of the list for their convenience. No bias on your part. Super-convenient for the people using your site.
 
 You can add Lufo to just about any `<select>` form control, choose to group the recent selects, customize (or hide) the labels and divider text, and even enable/disable Lufo based on how many options are in a dynamically-generated `<select>`.
 
@@ -183,3 +214,11 @@ We would love to see your contributions to Lufo! Check [CONTRIBUTING.md](https:/
 ## License
 
 [MIT License](https://github.com/highrisehq/lufo/blob/master/LICENSE.md)
+
+## Credit
+
+A ton of thanks to [Grant Blakeman](https://twitter.com/gblakeman) doing the vast majority of the work putting this together.
+
+## P.S.
+
+[You should follow us on Twitter: **here**](https://twitter.com/highrise), or see how we can help you with contact management using [Highrise](https://highrisehq.com)  —  a handy tool to help you remove anxiety around tracking who to follow up with and what to do next.
