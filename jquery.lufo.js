@@ -35,8 +35,8 @@ var getStoredItem = function(name) {
   if (localStorageEnabled()) {
     return localStorage.getItem(name)
   } else {
-    var cookie = document.cookie.match(new RegExp('(^|;)\\s*' + escape(name) + '=([^;\\s]*)'));
-    return (cookie ? unescape(cookie[2]) : null);
+    var cookie = document.cookie.match(new RegExp('(^|;)\\s*' + encodeURIComponent(name) + '=([^;\\s]*)'));
+    return (cookie ? decodeURIComponent(cookie[2]) : null);
   }
 };
 
