@@ -20,7 +20,7 @@ But that got us thinking... this isn't just a problem for Countries, we have thi
 
 Sure, browsers try and give you the ability to type some letters to find things faster in the menu, but they fail at anything but rudimentary searches. 
 
-What we really need is a solution to have HTML select menu's remember what the user last picked and make those easier to pick next time. 
+What we really need is a solution to have HTML select menus remember what the user last picked and make those easier to pick next time. 
 
 Something like: 
 
