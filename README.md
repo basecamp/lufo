@@ -6,9 +6,9 @@
 
 **"Stop being regionally biased"**
 
-That's the subject of an email I received recently at [**Highrise**](https://highrisehq.com/). 
+That's the subject of an email we received recently at [**Highrise**](https://highrisehq.com/). 
 
-Well that got my intention. What are we doing wrong?
+Well that got our intention. What are we doing wrong?
 
 The message explained: 
 
