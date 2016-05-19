@@ -74,11 +74,11 @@ var setSelect = function($selectControl, options){
     return
   } else {
     // check value of first option; if it's blank, assume the option is a placeholder
-    var placeholderMainHtml;
+    var $initialValue;
     if ((options.checkInitialValue) && (($selectControl.find('option:first').val() === '')) || ($selectControl.find('option:first').val() === undefined)) {
-      placeholderMainHtml = $selectControl.find('option:first').clone();
+      $initialValue = $selectControl.find('option:first');
     } else {
-      placeholderMainHtml = null;
+      $initialValue = null;
     };
 
     // set up optgroup or normal list header/footer
@@ -91,16 +91,21 @@ var setSelect = function($selectControl, options){
     var placeholderBottomHtml = '<option disabled="true">'+options.dividerText+'</option>';
 
     // footer
-    if (placeholderMainHtml != null) {
-      $selectControl.find('option:first').remove();
-    };
     if (options.dividerEnabled) {
-      $selectControl.prepend(placeholderBottomHtml);
+      if ($initialValue != null) {
+        $initialValue.after(placeholderBottomHtml);
+      } else {
+        $selectControl.prepend(placeholderBottomHtml);
+      };
     };
 
     // save optgroup
     if (options.groupList) {
-      $selectControl.prepend(placeholderTopHtml);
+      if ($initialValue != null) {
+        $initialValue.after(placeholderTopHtml);
+      } else {
+        $selectControl.prepend(placeholderTopHtml);
+      };
     };
 
     // loop through saved values
@@ -122,6 +127,8 @@ var setSelect = function($selectControl, options){
         };
         if (options.groupList) {
           $selectControl.find('optgroup:first').prepend(optionHtml);
+        } else if ($initialValue != null) {
+          $initialValue.after(optionHtml);
         } else {
           $selectControl.prepend(optionHtml);
         };
@@ -130,12 +137,10 @@ var setSelect = function($selectControl, options){
 
     // header
     if (options.recentsListTitleEnabled && !options.groupList) {
-      $selectControl.prepend(placeholderTopHtml);
-    };
-    if (placeholderMainHtml != null) {
-      $selectControl.prepend(placeholderMainHtml);
-      if ($selectControl.find('option[selected=selected]').length === 0) {
-        $selectControl.find('option:first').attr('selected','selected');
+      if ($initialValue != null) {
+        $initialValue.after(placeholderTopHtml);
+      } else {
+        $selectControl.prepend(placeholderTopHtml);
       };
     };
   };
