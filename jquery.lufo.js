@@ -25,7 +25,6 @@ var localStorageEnabled = function() {
     localStorage.removeItem(item);
     return true;
   } catch (_error) {
-    e = _error;
     return false;
   }
 };
