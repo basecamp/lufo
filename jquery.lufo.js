@@ -15,6 +15,24 @@ MIT License, https://github.com/highrise/lufo/blob/master/LICENSE.md
 // set name
 var lufo = "lufo", dataKey = "plugin_" + lufo;
 
+// ------------------------------------------------------------- Browser Management
+// check for IE (based on: http://stackoverflow.com/a/21712356)
+var detectIE = function() {
+    var userAgent = window.navigator.userAgent;
+    var msie = userAgent.indexOf('MSIE ');        // IE 10 or older
+    var trident = userAgent.indexOf('Trident/');  // IE 11
+    var edge = userAgent.indexOf('Edge/');        // Edge (IE 12+)
+    if (msie > 0) {
+      return true;
+    } else if (trident > 0) {
+      return true;
+    } else if (edge > 0) {
+      return true;
+    } else {
+      return false;
+    };
+}
+
 // ------------------------------------------------------------- Storage Management
 // check if localStorage is available
 var localStorageEnabled = function() {
@@ -116,7 +134,17 @@ var setSelect = function($selectControl, options){
       var optionHtml, optionLoop;
       for (optionLoop = 0; optionLoop < $selectControl[0].options.length; optionLoop++) {
         if ($selectControl[0].options[optionLoop].value == savedValue) {
-          optionHtml = jQuery($selectControl[0].options[optionLoop]).clone();
+          var $option = jQuery($selectControl[0].options[optionLoop]);
+          optionHtml = $option.clone();
+
+          // move selected attribute to top, if necessary
+          if ((!options.stripSelected)) {
+            var selected = $option.attr('selected');
+            if (typeof selected !== typeof undefined && selected !== false) {
+              $option.removeAttr('selected');
+              optionHtml.attr('selected', true);
+            };
+          };
           break;
         }
       };
@@ -141,6 +169,15 @@ var setSelect = function($selectControl, options){
         $initialValue.after(placeholderTopHtml);
       } else {
         $selectControl.prepend(placeholderTopHtml);
+      };
+    };
+
+    // re-select the selected option (ensures IE has the proper object selected)
+    if (detectIE()) {
+      var $selectedOption = $selectControl.find("[selected='selected']");
+      if ($selectedOption.length > 0) {
+        $selectControl.children().removeAttr('selected');
+        $selectedOption.attr('selected', true);
       };
     };
   };
