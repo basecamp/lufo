@@ -15,6 +15,24 @@ MIT License, https://github.com/highrise/lufo/blob/master/LICENSE.md
 // set name
 var lufo = "lufo", dataKey = "plugin_" + lufo;
 
+// ------------------------------------------------------------- Browser Management
+// check for IE (based on: http://stackoverflow.com/a/21712356)
+var detectIE = function() {
+    var userAgent = window.navigator.userAgent;
+    var msie = userAgent.indexOf('MSIE ');        // IE 10 or older
+    var trident = userAgent.indexOf('Trident/');  // IE 11
+    var edge = userAgent.indexOf('Edge/');        // Edge (IE 12+)
+    if (msie > 0) {
+      return true;
+    } else if (trident > 0) {
+      return true;
+    } else if (edge > 0) {
+      return true;
+    } else {
+      return false;
+    };
+}
+
 // ------------------------------------------------------------- Storage Management
 // check if localStorage is available
 var localStorageEnabled = function() {
@@ -25,7 +43,6 @@ var localStorageEnabled = function() {
     localStorage.removeItem(item);
     return true;
   } catch (_error) {
-    e = _error;
     return false;
   }
 };
@@ -35,8 +52,8 @@ var getStoredItem = function(name) {
   if (localStorageEnabled()) {
     return localStorage.getItem(name)
   } else {
-    var cookie = document.cookie.match(new RegExp('(^|;)\\s*' + escape(name) + '=([^;\\s]*)'));
-    return (cookie ? unescape(cookie[2]) : null);
+    var cookie = document.cookie.match(new RegExp('(^|;)\\s*' + encodeURIComponent(name) + '=([^;\\s]*)'));
+    return (cookie ? decodeURIComponent(cookie[2]) : null);
   }
 };
 
@@ -75,11 +92,11 @@ var setSelect = function($selectControl, options){
     return
   } else {
     // check value of first option; if it's blank, assume the option is a placeholder
-    var placeholderMainHtml;
+    var $initialValue;
     if ((options.checkInitialValue) && (($selectControl.find('option:first').val() === '')) || ($selectControl.find('option:first').val() === undefined)) {
-      placeholderMainHtml = $selectControl.find('option:first').clone();
+      $initialValue = $selectControl.find('option:first');
     } else {
-      placeholderMainHtml = null;
+      $initialValue = null;
     };
 
     // set up optgroup or normal list header/footer
@@ -92,16 +109,21 @@ var setSelect = function($selectControl, options){
     var placeholderBottomHtml = '<option disabled="true">'+options.dividerText+'</option>';
 
     // footer
-    if (placeholderMainHtml != null) {
-      $selectControl.find('option:first').remove();
-    };
     if (options.dividerEnabled) {
-      $selectControl.prepend(placeholderBottomHtml);
+      if ($initialValue != null) {
+        $initialValue.after(placeholderBottomHtml);
+      } else {
+        $selectControl.prepend(placeholderBottomHtml);
+      };
     };
 
     // save optgroup
     if (options.groupList) {
-      $selectControl.prepend(placeholderTopHtml);
+      if ($initialValue != null) {
+        $initialValue.after(placeholderTopHtml);
+      } else {
+        $selectControl.prepend(placeholderTopHtml);
+      };
     };
 
     // loop through saved values
@@ -112,7 +134,17 @@ var setSelect = function($selectControl, options){
       var optionHtml, optionLoop;
       for (optionLoop = 0; optionLoop < $selectControl[0].options.length; optionLoop++) {
         if ($selectControl[0].options[optionLoop].value == savedValue) {
-          optionHtml = jQuery($selectControl[0].options[optionLoop]).clone();
+          var $option = jQuery($selectControl[0].options[optionLoop]);
+          optionHtml = $option.clone();
+
+          // move selected attribute to top, if necessary
+          if ((!options.stripSelected)) {
+            var selected = $option.attr('selected');
+            if (typeof selected !== typeof undefined && selected !== false) {
+              $option.removeAttr('selected');
+              optionHtml.attr('selected', true);
+            };
+          };
           break;
         }
       };
@@ -123,6 +155,8 @@ var setSelect = function($selectControl, options){
         };
         if (options.groupList) {
           $selectControl.find('optgroup:first').prepend(optionHtml);
+        } else if ($initialValue != null) {
+          $initialValue.after(optionHtml);
         } else {
           $selectControl.prepend(optionHtml);
         };
@@ -131,12 +165,19 @@ var setSelect = function($selectControl, options){
 
     // header
     if (options.recentsListTitleEnabled && !options.groupList) {
-      $selectControl.prepend(placeholderTopHtml);
+      if ($initialValue != null) {
+        $initialValue.after(placeholderTopHtml);
+      } else {
+        $selectControl.prepend(placeholderTopHtml);
+      };
     };
-    if (placeholderMainHtml != null) {
-      $selectControl.prepend(placeholderMainHtml);
-      if ($selectControl.find('option[selected=selected]').length === 0) {
-        $selectControl.find('option:first').attr('selected','selected');
+
+    // re-select the selected option (ensures IE has the proper object selected)
+    if (detectIE()) {
+      var $selectedOption = $selectControl.find("[selected='selected']");
+      if ($selectedOption.length > 0) {
+        $selectControl.children().removeAttr('selected');
+        $selectedOption.attr('selected', true);
       };
     };
   };
